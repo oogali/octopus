@@ -10,7 +10,7 @@ module Octopus
 
     module SharedMethods
       def clean_table_name
-        return unless self.class.connection_proxy.should_clean_table_name?
+        return unless (self.respond_to?(:connection_proxy) ? connection_proxy : self.class.connection_proxy).should_clean_table_name?
 
         if self != ActiveRecord::Base && self.respond_to?(:reset_table_name) && !custom_octopus_table_name
           reset_table_name
