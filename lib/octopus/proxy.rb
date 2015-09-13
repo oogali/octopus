@@ -465,18 +465,11 @@ module Octopus
       end
     end
 
-    # Temporarily switch `current_shard` and run the block
     def using_shard(shard, &_block)
-      older_shard = current_shard
-
-      begin
-        unless current_model && !current_model.allowed_shard?(shard)
-          self.current_shard = shard
-        end
-        yield
-      ensure
-        self.current_shard = older_shard
+      unless current_model && !current_model.allowed_shard?(shard)
+        self.current_shard = shard
       end
+      yield
     end
 
     def structurally_slave?(config)
