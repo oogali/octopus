@@ -40,7 +40,7 @@ module Octopus
         return unless ::Octopus.enabled?
         return if !self.class.connection.respond_to?(:current_shard) || !self.respond_to?(:current_shard)
         if !record.current_shard.nil? && !current_shard.nil? && record.current_shard != current_shard
-          fail 'Association Error: Records are from different shards'
+          fail "Association Error: Records are from different shards (expected: #{current_shard}, found: #{record.current_shard})"
         end
 
         record.current_shard = self.class.connection.current_shard = current_shard if should_set_current_shard?
